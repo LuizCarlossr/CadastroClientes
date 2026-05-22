@@ -1,0 +1,5 @@
+SELECT * FROM Clientes
+
+exec PROC_UPDATE_CLIENTES 123, '22222', 'Luiz Carlos S R', 'M', 'lcsr@gmail.com', '1399999', '1399999', 'SP'
+
+EXEC PROC_LISTAR_CLIENTES

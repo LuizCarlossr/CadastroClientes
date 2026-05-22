@@ -1,53 +1,63 @@
-﻿using System.Collections.Generic;
+﻿using Microsoft.Data.SqlClient;
+using Newtonsoft.Json;
+using System.Collections.Generic;
+using System.Data;
+using System.Linq;
+using System.Text.Json.Serialization;
 
 namespace CadastroClientes.Models.Repository
 {
     public class ClientesRepository
     {
+        private AppConnection _appConfig;
+
+        public ClientesRepository(AppConnection appConfig)
+        {
+            _appConfig = appConfig;
+        }
+
+        public void Salvar(Clientes clientes)
+        {
+            try
+            {
+                using (SqlConnection connection = new SqlConnection(_appConfig.ConnectionString))
+                {
+                    connection.Open();
+
+                    using (SqlCommand cmd = new SqlCommand("PROC_INSERIR_CLIENTES", connection))
+                    { 
+                        cmd.CommandType = CommandType.StoredProcedure;
+
+                        cmd.Parameters.AddWithValue("@IdCliente", clientes.IdCliente);
+                        cmd.Parameters.AddWithValue("@Documento", clientes.Documento);
+                        cmd.Parameters.AddWithValue("@Nome", clientes.Nome);
+                        cmd.Parameters.AddWithValue("@Sexo", clientes.Sexo);
+                        cmd.Parameters.AddWithValue("@Email", clientes.Email);
+                        cmd.Parameters.AddWithValue("@Fax", clientes.Fax);
+                        cmd.Parameters.AddWithValue("@UF", clientes.UF);
+
+                        cmd.ExecuteNonQuery();
+                    }
+                }
+            }  
+            catch (Exception ex)
+            {
+                
+            }
+        }
         public List<Clientes> Listar() 
         {
-            List<Clientes> clientesLista = new List<Clientes>();
+            return null;
+        }
 
-            //Instancia cliente Luiz Carlos
-            Clientes cliente = new Clientes();
-            cliente.UF = "SP";
-            cliente.Fax = "1111111";
-            cliente.Telefone = "2222222";
-            cliente.Documento = "333333333";
-            cliente.Email = "luiz@gmail.com";
-            cliente.Nome = "Luiz Carlos";
-            cliente.Sexo = "Masculino";
-            cliente.IdCliente = 10;
-            //Adicionando Luiz Carlos na lista de cliente
-            clientesLista.Add(cliente);
+        public bool Deletar(string Documento)
+        {
+            return false;
+        }
 
-            //Instancia cliente Jorge Ferreira
-            cliente = new Clientes();
-            cliente.UF = "MG";
-            cliente.Fax = "4444444";
-            cliente.Telefone = "5555555";
-            cliente.Documento = "6666666";
-            cliente.Email = "jorge@gmail.com";
-            cliente.Nome = "Jorge Ferreira";
-            cliente.Sexo = "Masculino";
-            cliente.IdCliente = 22;
-            //Adicionando Jorge Ferreira na lista de cliente
-            clientesLista.Add(cliente);
-
-            //Instancia cliente Maria da Silva
-            cliente = new Clientes();
-            cliente.UF = "RJ";
-            cliente.Fax = "7777777";
-            cliente.Telefone = "88888";
-            cliente.Documento = "999999";
-            cliente.Email = "maria@gmail.com";
-            cliente.Nome = "Maria da Silva";
-            cliente.Sexo = "Feminino";
-            cliente.IdCliente = 33;
-            //Adicionando Maria da Silva na lista de cliente
-            clientesLista.Add(cliente);
-
-            return clientesLista;
+        public Clientes GetCliente(string Documento)
+        {
+            return null;
         }
     }
 }

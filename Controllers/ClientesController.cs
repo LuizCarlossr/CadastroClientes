@@ -14,7 +14,8 @@ namespace CadastroClientes.Controllers
         {
             try
             {
-
+                ClientesRepository clientes = new ClientesRepository(null);
+                clientes.Salvar(cadastro);
             }
             catch (Exception ex)
             {
@@ -24,7 +25,7 @@ namespace CadastroClientes.Controllers
             return null;
         }
 
-        [HttpPost("Alterar")]
+        [HttpPut("Alterar")]
         public object Alterar([FromBody] Clientes cadastro)
         {
             try
@@ -45,7 +46,7 @@ namespace CadastroClientes.Controllers
             List<Clientes> listaCliente = null;
             try
             {
-                ClientesRepository clientesRepository = new ClientesRepository();
+                ClientesRepository clientesRepository = new ClientesRepository(null);
                 listaCliente = clientesRepository.Listar();
 
             }
@@ -58,12 +59,31 @@ namespace CadastroClientes.Controllers
         }
 
         [HttpDelete("Deletar")]
-        public object Deletar(int IdCliente)
+        public object Deletar(string Documento)
         {
             try
             {
-                
-                
+                ClientesRepository clientesRepository = new ClientesRepository(null);
+                bool retornoDeletar = clientesRepository.Deletar(Documento);
+
+                return retornoDeletar;
+            }
+            catch (Exception ex)
+            {
+
+                throw;
+            }
+            return null;
+        }
+
+        [HttpDelete("GetCliente")]
+        public object GetCliente(string Documento)
+        {
+            try
+            {
+                ClientesRepository clientesRepository = new ClientesRepository(null);
+                var returno  = clientesRepository.GetCliente(Documento);
+                return returno;
             }
             catch (Exception ex)
             {
