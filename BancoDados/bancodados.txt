@@ -1,1 +1,0 @@
-{"IdCliente":0,"Documento":"8888","Nome":"Luiz","Sexo":"Masculino","Email":"l@gmail.com","Telefone":"1111","Fax":"2222","UF":"SP"},

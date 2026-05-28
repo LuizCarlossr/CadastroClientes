@@ -1,9 +1,6 @@
 ﻿using Microsoft.Data.SqlClient;
-using Newtonsoft.Json;
-using System.Collections.Generic;
 using System.Data;
-using System.Linq;
-using System.Text.Json.Serialization;
+using System.Net;
 
 namespace CadastroClientes.Models.Repository
 {
@@ -20,6 +17,8 @@ namespace CadastroClientes.Models.Repository
         {
             try
             {
+                ServicePointManager.ServerCertificateValidationCallback += (sender, certificate, chain, sslPolicyErrors) => false;
+
                 using (SqlConnection connection = new SqlConnection(_appConfig.ConnectionString))
                 {
                     connection.Open();
@@ -33,6 +32,7 @@ namespace CadastroClientes.Models.Repository
                         cmd.Parameters.AddWithValue("@Nome", clientes.Nome);
                         cmd.Parameters.AddWithValue("@Sexo", clientes.Sexo);
                         cmd.Parameters.AddWithValue("@Email", clientes.Email);
+                        cmd.Parameters.AddWithValue("@Telefone", clientes.Telefone);
                         cmd.Parameters.AddWithValue("@Fax", clientes.Fax);
                         cmd.Parameters.AddWithValue("@UF", clientes.UF);
 
@@ -42,22 +42,152 @@ namespace CadastroClientes.Models.Repository
             }  
             catch (Exception ex)
             {
-                
+
+            }
+        }
+
+        public void Atualizar(Clientes clientes)
+        {
+            try
+            {
+                using (SqlConnection connection = new SqlConnection(_appConfig.ConnectionString))
+                {
+                    connection.Open();
+
+                    using (SqlCommand cmd = new SqlCommand("PROC_UPDATE_CLIENTES", connection))
+                    {
+                        cmd.CommandType = CommandType.StoredProcedure;
+
+                        cmd.Parameters.AddWithValue("@IdCliente", clientes.IdCliente);
+                        cmd.Parameters.AddWithValue("@Documento", clientes.Documento);
+                        cmd.Parameters.AddWithValue("@Nome", clientes.Nome);
+                        cmd.Parameters.AddWithValue("@Sexo", clientes.Sexo);
+                        cmd.Parameters.AddWithValue("@Email", clientes.Email);
+                        cmd.Parameters.AddWithValue("@Telefone", clientes.Telefone);
+                        cmd.Parameters.AddWithValue("@Fax", clientes.Fax);
+                        cmd.Parameters.AddWithValue("@UF", clientes.UF);
+
+                        cmd.ExecuteNonQuery();
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+
             }
         }
         public List<Clientes> Listar() 
         {
-            return null;
+            List<Clientes> retorno = new List<Clientes>();
+
+            try
+            {
+                using (SqlConnection connection = new SqlConnection(_appConfig.ConnectionString))
+                {
+                    connection.Open();
+
+                    using (SqlCommand cmd = new SqlCommand("PROC_LISTAR_CLIENTES", connection))
+                    {
+                        using (SqlDataReader reader = cmd.ExecuteReader()) 
+                        {
+                            while (reader.Read())
+                            {
+                                Clientes cliente = new Clientes();
+
+                                cliente.IdCliente = Convert.ToInt32(reader["IdCliente"].ToString());
+                                cliente.Documento = reader["Documento"].ToString();
+                                cliente.Nome = reader["Nome"].ToString();
+                                cliente.Sexo = reader["Sexo"].ToString();
+                                cliente.Email = reader["Email"].ToString();
+                                cliente.Telefone = reader["Telefone"].ToString();
+                                cliente.Fax = reader["Fax"].ToString();
+                                cliente.UF = reader["UF"].ToString();
+
+                                retorno.Add(cliente);
+                            }
+                        }
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+
+            }
+
+            return retorno;
         }
 
-        public bool Deletar(string Documento)
+        public bool Deletar(int IdCliente)
         {
-            return false;
+            bool retorno = false;
+
+            try
+            {
+                using (SqlConnection connection = new SqlConnection(_appConfig.ConnectionString))
+                {
+                    connection.Open();
+
+                    using (SqlCommand cmd = new SqlCommand("PROC_DELETAR_CLIENTES", connection))
+                    {
+                        cmd.CommandType = CommandType.StoredProcedure;
+
+                        cmd.Parameters.AddWithValue("@IdCliente", IdCliente);
+
+                        int linhas = cmd.ExecuteNonQuery();
+
+                        if (linhas > 0)                        
+                            retorno = true;
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+
+            }
+
+            return retorno;
         }
 
-        public Clientes GetCliente(string Documento)
+        public Clientes? GetCliente(int IdCliente)
         {
-            return null;
+            Clientes cliente = null;
+
+            try
+            {
+                using (SqlConnection connection = new SqlConnection(_appConfig.ConnectionString))
+                {
+                    connection.Open();
+
+                    using (SqlCommand cmd = new SqlCommand("PROC_GET_CLIENTE", connection))
+                    {
+                        cmd.CommandType = CommandType.StoredProcedure;
+                        cmd.Parameters.AddWithValue("@IdCliente", IdCliente);
+
+                        using (SqlDataReader reader = cmd.ExecuteReader())
+                        {
+                            if (reader.Read())
+                            {
+                                cliente = new Clientes();
+
+                                cliente.IdCliente = Convert.ToInt32(reader["IdCliente"].ToString());
+                                cliente.Documento = reader["Documento"].ToString();
+                                cliente.Nome = reader["Nome"].ToString();
+                                cliente.Sexo = reader["Sexo"].ToString();
+                                cliente.Email = reader["Email"].ToString();
+                                cliente.Telefone = reader["Telefone"].ToString();
+                                cliente.Fax = reader["Fax"].ToString();
+                                cliente.UF = reader["UF"].ToString();
+                            }
+                        }
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+
+            }
+
+            return cliente;
         }
     }
 }

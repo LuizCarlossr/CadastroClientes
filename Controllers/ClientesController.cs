@@ -1,6 +1,5 @@
 ﻿using CadastroClientes.Models;
 using CadastroClientes.Models.Repository;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
 namespace CadastroClientes.Controllers
@@ -9,34 +8,55 @@ namespace CadastroClientes.Controllers
     [ApiController]
     public class ClientesController : ControllerBase
     {
+        IConfiguration configuration = new ConfigurationBuilder()
+            .SetBasePath(AppDomain.CurrentDomain.BaseDirectory)
+            .AddJsonFile("appsettings.json")
+            .Build();
+
         [HttpPost("Salvar")]
-        public object Salvar([FromBody] Clientes cadastro)
+        public object Salvar([FromBody] Clientes cliente)
         {
             try
             {
-                ClientesRepository clientes = new ClientesRepository(null);
-                clientes.Salvar(cadastro);
+                var appConfig = new AppConnection(configuration);
+
+                
+
+                ClientesRepository clientes = new ClientesRepository(appConfig);
+
+                var returno = clientes.GetCliente(cliente.IdCliente);
+                clientes.Salvar(cliente);
+
+                if (returno != null) 
+                {
+                    clientes.Atualizar(cliente);
+                }
+                else
+                    clientes.Salvar(cliente);
             }
             catch (Exception ex)
             {
 
-                throw;
             }
             return null;
         }
 
         [HttpPut("Alterar")]
-        public object Alterar([FromBody] Clientes cadastro)
+        public object Alterar([FromBody] Clientes cliente)
         {
             try
             {
+                var appConfig = new AppConnection(configuration);
+
+                ClientesRepository clientes = new ClientesRepository(appConfig);
+                clientes.Atualizar(cliente);
 
             }
             catch (Exception ex)
             {
 
-                throw;
             }
+
             return null;
         }
 
@@ -46,53 +66,57 @@ namespace CadastroClientes.Controllers
             List<Clientes> listaCliente = null;
             try
             {
-                ClientesRepository clientesRepository = new ClientesRepository(null);
+                var appConfig = new AppConnection(configuration);
+
+                ClientesRepository clientesRepository = new ClientesRepository(appConfig);
                 listaCliente = clientesRepository.Listar();
 
             }
             catch (Exception ex)
             {
 
-                throw;
             }
+
             return listaCliente;
         }
 
         [HttpDelete("Deletar")]
-        public object Deletar(string Documento)
+        public object Deletar(int IdCliente)
         {
             try
             {
-                ClientesRepository clientesRepository = new ClientesRepository(null);
-                bool retornoDeletar = clientesRepository.Deletar(Documento);
+                var appConfig = new AppConnection(configuration);
+
+                ClientesRepository clientesRepository = new ClientesRepository(appConfig);
+                bool retornoDeletar = clientesRepository.Deletar(IdCliente);
 
                 return retornoDeletar;
             }
             catch (Exception ex)
             {
 
-                throw;
             }
+
             return null;
         }
 
-        [HttpDelete("GetCliente")]
-        public object GetCliente(string Documento)
+        [HttpGet("GetCliente")]
+        public object GetCliente(int IdCliente)
         {
             try
             {
-                ClientesRepository clientesRepository = new ClientesRepository(null);
-                var returno  = clientesRepository.GetCliente(Documento);
+                var appConfig = new AppConnection(configuration);
+
+                ClientesRepository clientesRepository = new ClientesRepository(appConfig);
+                var returno  = clientesRepository.GetCliente(IdCliente);
                 return returno;
             }
             catch (Exception ex)
             {
 
-                throw;
             }
+
             return null;
         }
-
-
     }
 }
