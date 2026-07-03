@@ -1,34 +1,68 @@
-````md
 <div align="center">
 
 # 🚀 Cadastro de Clientes API
 
-API REST desenvolvida em **ASP.NET Core 8** para gerenciamento de clientes utilizando **SQL Server**, **ADO.NET** e **Stored Procedures**.
+### API REST desenvolvida em ASP.NET Core 8 para gerenciamento de clientes
 
-![.NET](https://img.shields.io/badge/.NET-8.0-512BD4?style=for-the-badge&logo=dotnet&logoColor=white)
-![C#](https://img.shields.io/badge/C%23-239120?style=for-the-badge&logo=csharp&logoColor=white)
-![SQL Server](https://img.shields.io/badge/SQL_Server-CC2927?style=for-the-badge&logo=microsoftsqlserver&logoColor=white)
-![Swagger](https://img.shields.io/badge/Swagger-85EA2D?style=for-the-badge&logo=swagger&logoColor=black)
+[![.NET](https://img.shields.io/badge/.NET-8.0-512BD4?style=for-the-badge&logo=.net&logoColor=white)](https://dotnet.microsoft.com/)
+[![C#](https://img.shields.io/badge/C%23-12.0-239120?style=for-the-badge&logo=csharp&logoColor=white)](https://learn.microsoft.com/dotnet/csharp/)
+[![ASP.NET Core](https://img.shields.io/badge/ASP.NET%20Core-8.0-5C2D91?style=for-the-badge&logo=dotnet&logoColor=white)](https://learn.microsoft.com/aspnet/core)
+[![SQL Server](https://img.shields.io/badge/SQL%20Server-CC2927?style=for-the-badge&logo=microsoftsqlserver&logoColor=white)](https://www.microsoft.com/sql-server)
+[![Swagger](https://img.shields.io/badge/Swagger-OpenAPI-85EA2D?style=for-the-badge&logo=swagger&logoColor=black)](https://swagger.io/)
+
+Projeto desenvolvido para demonstrar um **CRUD completo** utilizando **ASP.NET Core 8**, **SQL Server** e **Stored Procedures**.
 
 </div>
 
 ---
 
+# 📑 Índice
+
+- [📖 Sobre o Projeto](#-sobre-o-projeto)
+- [✨ Funcionalidades](#-funcionalidades)
+- [🛠 Tecnologias Utilizadas](#-tecnologias-utilizadas)
+- [🏛 Arquitetura](#-arquitetura)
+- [📂 Estrutura do Projeto](#-estrutura-do-projeto)
+- [🚀 Como Executar](#-como-executar)
+- [🗄 Banco de Dados](#-banco-de-dados)
+- [🌐 Documentação da API](#-documentação-da-api)
+- [📌 Endpoints](#-endpoints)
+- [📥 Exemplo de Requisição](#-exemplo-de-requisição)
+- [🎯 Objetivos](#-objetivos)
+- [🚀 Melhorias Futuras](#-melhorias-futuras)
+- [🤝 Contribuição](#-contribuição)
+- [👨‍💻 Autor](#-autor)
+- [📄 Licença](#-licença)
+
+---
+
 # 📖 Sobre o Projeto
 
-O **Cadastro de Clientes API** é uma aplicação desenvolvida em **ASP.NET Core 8** com foco na implementação de um **CRUD completo** de clientes.
+O **Cadastro de Clientes API** é uma API REST desenvolvida em **ASP.NET Core 8** com o objetivo de gerenciar o cadastro de clientes de forma simples, organizada e eficiente.
 
-A aplicação utiliza o padrão **Repository**, acesso ao banco por meio do **ADO.NET** e execução das operações através de **Stored Procedures**, proporcionando uma arquitetura simples, organizada e de fácil manutenção.
+O projeto implementa um **CRUD completo**, permitindo:
+
+- Cadastro de clientes;
+- Consulta por ID;
+- Listagem de todos os clientes;
+- Atualização de registros;
+- Exclusão de clientes.
+
+A persistência dos dados é realizada em **SQL Server** através de **Stored Procedures**, enquanto a documentação da API é disponibilizada automaticamente utilizando **Swagger (OpenAPI)**.
+
+Este projeto foi desenvolvido para fins de estudo, prática e demonstração de conhecimentos em desenvolvimento de APIs utilizando a plataforma .NET.
 
 ---
 
 # ✨ Funcionalidades
 
-- ✅ Cadastrar clientes
-- ✅ Atualizar clientes
-- ✅ Consultar cliente por ID
-- ✅ Listar todos os clientes
-- ✅ Excluir clientes
+- ✅ Cadastro de Clientes
+- ✅ Consulta de Clientes por ID
+- ✅ Listagem de Clientes
+- ✅ Atualização de Clientes
+- ✅ Exclusão de Clientes
+- ✅ Integração com SQL Server
+- ✅ Utilização de Stored Procedures
 - ✅ Documentação automática via Swagger
 
 ---
@@ -41,14 +75,19 @@ A aplicação utiliza o padrão **Repository**, acesso ao banco por meio do **AD
 | ASP.NET Core 8 | Framework para APIs REST |
 | .NET 8 | Plataforma de desenvolvimento |
 | SQL Server | Banco de dados relacional |
-| ADO.NET | Acesso ao banco de dados |
-| Stored Procedures | Manipulação dos dados |
-| Swagger | Documentação e testes da API |
-| Visual Studio 2022 | Ambiente de desenvolvimento |
+| Microsoft.Data.SqlClient | Biblioteca para conexão com SQL Server |
+| Swagger (OpenAPI) | Documentação e testes da API |
+| Visual Studio 2022 Community | Ambiente de desenvolvimento |
+| Git | Controle de versão |
+| GitHub | Hospedagem do projeto |
+```
 
+````md
 ---
 
 # 🏛 Arquitetura
+
+A API foi desenvolvida utilizando uma arquitetura simples e organizada, separando as responsabilidades entre as camadas de **Controller**, **Model** e **Acesso aos Dados**, facilitando a manutenção e evolução do projeto.
 
 ```mermaid
 graph TD
@@ -59,9 +98,9 @@ A --> B[ClientesController]
 
 B --> C[ClientesRepository]
 
-C --> D[Stored Procedures]
+C --> D[(SQL Server)]
 
-D --> E[(SQL Server)]
+D --> E[Stored Procedures]
 ```
 
 ---
@@ -84,6 +123,8 @@ CadastroClientes
 │       ├── AppConnection.cs
 │       └── ClientesRepository.cs
 │
+├── Properties
+│
 ├── Program.cs
 ├── appsettings.json
 ├── CadastroClientes.csproj
@@ -94,22 +135,26 @@ CadastroClientes
 
 # 🗄 Banco de Dados
 
-Na pasta **BancoDados** encontram-se todos os scripts necessários para criação da estrutura do banco.
+O projeto utiliza o **Microsoft SQL Server** para armazenamento das informações dos clientes.
 
-Execute os scripts na seguinte ordem:
+Na pasta **BancoDados** encontram-se todos os scripts necessários para criação da estrutura do banco de dados e das Stored Procedures.
 
-1. Tabela de Clientes
-2. Procedure de Inserção
-3. Procedure de Atualização
-4. Procedure de Exclusão
-5. Procedure de Consulta
-6. Procedure de Listagem
+### Ordem recomendada para execução dos scripts
+
+1. Criar a tabela **Clientes**;
+2. Criar a Stored Procedure para Inserção;
+3. Criar a Stored Procedure para Atualização;
+4. Criar a Stored Procedure para Exclusão;
+5. Criar a Stored Procedure para Consulta por ID;
+6. Criar a Stored Procedure para Listagem de Clientes.
+
+Após executar esses scripts, o banco estará pronto para utilização pela API.
 
 ---
 
-# 🚀 Como Executar
+# 🚀 Como Executar o Projeto
 
-## 1. Clonar o repositório
+## 1️⃣ Clonar o Repositório
 
 ```bash
 git clone https://github.com/LuizCarlossr/CadastroClientes.git
@@ -117,11 +162,11 @@ git clone https://github.com/LuizCarlossr/CadastroClientes.git
 
 ---
 
-## 2. Abrir a solução
+## 2️⃣ Abrir a Solução
 
-Abra o arquivo
+Abra o arquivo:
 
-```
+```text
 CadastroClientes.sln
 ```
 
@@ -129,21 +174,23 @@ utilizando o **Visual Studio 2022 Community**.
 
 ---
 
-## 3. Configurar o banco
+## 3️⃣ Configurar o Banco de Dados
 
-Execute os scripts SQL localizados na pasta:
+Execute todos os scripts localizados na pasta:
 
+```text
+BancoDados
 ```
-BancoDados/
-```
+
+utilizando o **SQL Server Management Studio (SSMS)**.
 
 ---
 
-## 4. Configurar a Connection String
+## 4️⃣ Configurar a Connection String
 
-Edite o arquivo:
+Abra o arquivo:
 
-```json
+```text
 appsettings.json
 ```
 
@@ -157,62 +204,129 @@ Exemplo:
 }
 ```
 
+Substitua os valores acima pelas informações do seu ambiente.
+
+> **Importante:** Não publique credenciais reais no GitHub.
+
 ---
 
-## 5. Executar a aplicação
+## 5️⃣ Executar a Aplicação
 
 No Visual Studio:
 
-```
-F5
-```
+- Pressione **F5** para iniciar com depuração.
+- Ou pressione **Ctrl + F5** para executar sem depuração.
 
-ou
-
-```
-Ctrl + F5
-```
+Após a inicialização, a API estará pronta para receber requisições.
 
 ---
 
 # 🌐 Documentação da API
 
-Após iniciar a aplicação, o Swagger estará disponível em:
+Com a aplicação em execução, acesse a documentação gerada automaticamente pelo Swagger:
 
-```
+```text
 https://localhost:5001/swagger
 ```
 
-*A porta poderá variar conforme a configuração do projeto.*
+ou
 
+```text
+http://localhost:5000/swagger
+```
+
+> **Observação:** A porta pode variar de acordo com a configuração do Visual Studio ou do arquivo `launchSettings.json`.
+
+O Swagger permite:
+
+- Visualizar todos os endpoints disponíveis;
+- Testar requisições diretamente pelo navegador;
+- Consultar parâmetros e modelos de dados;
+- Verificar os retornos da API.
+````
+
+````md
 ---
 
-# 📌 Endpoints
+# 📌 Endpoints da API
+
+A API disponibiliza os seguintes endpoints para gerenciamento de clientes:
 
 | Método | Endpoint | Descrição |
-|---------|----------|-----------|
+|:-------:|----------|-----------|
 | GET | `/api/Clientes/Listar` | Lista todos os clientes |
-| GET | `/api/Clientes/GetCliente?idCliente={id}` | Consulta um cliente |
-| POST | `/api/Clientes/Salvar` | Cadastra um cliente |
-| PUT | `/api/Clientes/Alterar` | Atualiza um cliente |
-| DELETE | `/api/Clientes/Deletar?idCliente={id}` | Exclui um cliente |
+| GET | `/api/Clientes/GetCliente?idCliente={id}` | Consulta um cliente pelo ID |
+| POST | `/api/Clientes/Salvar` | Cadastra um novo cliente |
+| PUT | `/api/Clientes/Alterar` | Atualiza um cliente existente |
+| DELETE | `/api/Clientes/Deletar?idCliente={id}` | Remove um cliente |
 
 ---
 
 # 📥 Exemplo de Requisição
 
-### POST - Cadastrar Cliente
+### Cadastrar Cliente
+
+**POST** `/api/Clientes/Salvar`
 
 ```json
 {
   "documento": "12345678900",
   "nome": "Luiz Carlos S R",
   "sexo": "M",
-  "email": "luizcarlossr@email.com",
+  "email": "luiz@email.com",
   "telefone": "(11)99999-9999",
   "fax": "(11)99999-9999",
   "uf": "SP"
 }
+```
+
+---
+
+### Atualizar Cliente
+
+**PUT** `/api/Clientes/Alterar`
+
+```json
+{
+  "idCliente": 1,
+  "documento": "12345678900",
+  "nome": "Luiz Carlos S R",
+  "sexo": "M",
+  "email": "novoemail@email.com",
+  "telefone": "(11)99999-9999",
+  "fax": "(11)99999-9999",
+  "uf": "SP"
+}
+```
+
+---
+
+### Consultar Cliente
+
+**GET**
+
+```http
+/api/Clientes/GetCliente?idCliente=1
+```
+
+---
+
+### Listar Clientes
+
+**GET**
+
+```http
+/api/Clientes/Listar
+```
+
+---
+
+### Excluir Cliente
+
+**DELETE**
+
+```http
+/api/Clientes/Deletar?idCliente=1
 ```
 
 ---
@@ -225,7 +339,7 @@ https://localhost:5001/swagger
   "documento": "12345678900",
   "nome": "Luiz Carlos S R",
   "sexo": "M",
-  "email": "luizcarlossr@email.com",
+  "email": "luiz@email.com",
   "telefone": "(11)99999-9999",
   "fax": "(11)99999-9999",
   "uf": "SP"
@@ -234,76 +348,43 @@ https://localhost:5001/swagger
 
 ---
 
-# 📷 Capturas de Tela
+# 📡 Códigos de Resposta HTTP
 
-## Swagger
-
-> Adicione a imagem em:
-
-```
-docs/images/swagger.png
-```
-
-```md
-![Swagger](docs/images/swagger.png)
-```
+| Código | Descrição |
+|:------:|-----------|
+| **200** | Requisição realizada com sucesso |
+| **201** | Registro criado com sucesso |
+| **400** | Requisição inválida |
+| **404** | Registro não encontrado |
+| **500** | Erro interno do servidor |
 
 ---
 
-## Banco de Dados
+# 🎯 Objetivos do Projeto
 
-> Adicione a imagem em:
+Este projeto foi desenvolvido com o objetivo de praticar e demonstrar conhecimentos em:
 
-```
-docs/images/sqlserver.png
-```
-
-```md
-![SQL Server](docs/images/sqlserver.png)
-```
-
----
-
-## Stored Procedures
-
-> Adicione a imagem em:
-
-```
-docs/images/procedures.png
-```
-
-```md
-![Procedures](docs/images/procedures.png)
-```
+- Desenvolvimento de APIs REST com ASP.NET Core;
+- Integração com SQL Server;
+- Utilização de Stored Procedures;
+- Organização de projetos em camadas;
+- Documentação automática utilizando Swagger;
+- Versionamento de código com Git e GitHub.
 
 ---
 
 # 🚀 Melhorias Futuras
 
-- 🔐 Autenticação JWT
-- ✅ Validação de dados
-- 📄 Paginação
-- 🔍 Filtros de pesquisa
-- 📊 Logs com Serilog
-- 🧪 Testes unitários
-- 🐳 Docker
-- ☁ Deploy em Azure
+Algumas melhorias que podem ser implementadas futuramente:
 
----
+- 🔐 Autenticação utilizando JWT;
+- 👤 Controle de usuários e perfis;
+- ✅ Validação de dados com FluentValidation;
+- 📄 Paginação de registros;
+- 🔍 Pesquisa com filtros;
+- 📊 Logs utilizando Serilog;
+- 🧪 Testes unitários com xUnit;
+- 🐳 Docker;
+- ☁️ Deploy no Microsoft Azure.
 
-# 📄 Licença
-
-Este projeto foi desenvolvido para fins de estudo e aprendizado.
-
-Sinta-se à vontade para utilizá-lo como referência em seus estudos.
-
----
-
-<div align="center">
-
-### ⭐ Se este projeto foi útil para você, deixe uma estrela no repositório!
-
-Desenvolvido com ❤️ utilizando **C#**, **ASP.NET Core** e **SQL Server**.
-
-</div>
 ````
