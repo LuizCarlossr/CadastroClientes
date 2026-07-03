@@ -30,9 +30,6 @@ Projeto desenvolvido para demonstrar um **CRUD completo** utilizando **ASP.NET C
 - [📥 Exemplo de Requisição](#-exemplo-de-requisição)
 - [🎯 Objetivos](#-objetivos)
 - [🚀 Melhorias Futuras](#-melhorias-futuras)
-- [🤝 Contribuição](#-contribuição)
-- [👨‍💻 Autor](#-autor)
-- [📄 Licença](#-licença)
 
 ---
 
